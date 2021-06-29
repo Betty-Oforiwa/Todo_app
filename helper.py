@@ -38,13 +38,12 @@ def get_all_items():
         return None
 
 
-def get_item(item,status):
+def get_item(item):
     try:
         connection = sqlite3.connect(DB_PATH)
         c = connection.cursor()
-        c.execute("select status from todolist where item='%s' % item")
+        c.execute("select status from todolist where item='%s'" % item) 
         status = c.fetchone()[0]
-        print(status)
         return status
     except Exception as e:
         print ('Error: ', e)
@@ -74,11 +73,11 @@ def update_status(item, status):
         return None 
     
     
-def delete_item(item):
+def delete_item(item, status):
     try:
         connection = sqlite3.connect(DB_PATH)
         c = connection.cursor()
-        c.execute('delete from todolist where item=? where item=?', (item,))
+        c.execute('delete from todolist where item=? where item=?', (item, status))
         connection.commit()
         
         return {'item': item}
